@@ -1,0 +1,96 @@
+{% extends "auctions/layout.html" %}
+{% load auction_tags %}
+{% load static %}
+
+{% block body %}
+<div class="row col-12 mb-3">
+    <div class="col">
+    {% if message %}
+        <p class="alert alert-info">{{message}}</p>
+    {% endif %}
+    {% if listing.winner is not None %}
+        <h4 class="alert alert-success">This auction is closed !</h4>
+        {% if user.is_authenticated and user.id != listing.user.id %}
+            <h4 class="alert alert-sucess">You have won this auction! Congratulations!</h4>
+        {% endif %}
+    {% endif %}
+    </div>
+</div>
+<div class="row col-12 mb-3">
+    <div class="col-12 col-lg-4">
+        {% if listing.item.image %}
+        <img class="img-fluid shadow" src="{{listing.item.image}}" alt="{{listing.item.name}}">
+        {% else %}
+        <img class="img-fluid shadow" src="{% static 'auctions/images/not-available.png' %}" alt="{{listing.item.name}}">
+        {% endif %}
+    </div>
+    <div class="col-12 col-lg-8">
+        <div class="mb-4">        
+            <span class="m-0">
+                <h3 class="display-4 d-inline">{{listing.item.name}}</h3>
+                <small class="text-muted mr-5">posted by {{listing.user}}</small>
+            </span>
+            <div>
+                {% if user.is_authenticated and user.id is not listing.user.id %}
+                    {% if in_watchlist %}            
+                        <a href="{% url 'remove_from_watchlist' item_id=listing.id %}" class="badge badge-primary">Remove from Watchlist</a>
+                    {% else %}
+                        <a href="{% url 'add_to_watchlist' item_id=listing.id %}" class="badge badge-primary">Add to Watchlist</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <div>
+            <span>
+                {% if listing.sold %}
+                    <h5 class="d-inline">Winning bid: {{listing.item.current_price|usd}}</h5>
+                    <small class="text-muted inline-block">Initial: {{listing.item.initial_price|usd}}</small>
+                {% else %}
+                    <h5 class="d-inline">Current bid: {{listing.item.current_price|usd}}</h5>
+                    <small class="text-muted inline-block">Initial: {{listing.item.initial_price|usd}}</small>
+                {% endif %}
+            </span>
+            <div><small>
+                {{bids|count}} bid(s) have been placed for this item
+            </small></div>
+        </div>
+        <div class="mt-4 mb-4">
+            <div class="border-bottom">{{listing.item.description}}</div>
+            <div>Category: {{listing.item.category|capitalize}}</div>
+        </div>
+        {% if not listing.sold %}
+            <div class="col-6 pl-0 mt-4">
+                {% if user.is_authenticated %}
+                    {% if user.id is not listing.user.id %}
+                        <form action="{% url 'add_bid' item_id=listing.id %}" method="POST">
+                            {% csrf_token %}
+                            {{bid_form}}
+                            <input type="submit" class="btn btn-dark mt-2" value="Place bid">
+                        </form>     
+                    {% else %}               
+                        <a class="btn btn-dark" href="{% url 'close_auction' item_id=listing.id %}">Close auction</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row col-12">
+    <div class="col-12 col-lg-4 ml-2 p-2">
+        {% if user.is_authenticated %}
+            <form action="{% url 'add_comment' item_id=listing.id %}" method="POST">
+                {% csrf_token %}
+                {{comment_form}}
+                <input type="submit" class="btn btn-primary m-2" value="Add comment">
+            </form>
+        {% endif %}
+    </div>
+    <div class="col-12 col-lg-7 border">
+        {% for comment in comments %}
+            <hr>
+            <p class="m-2">{{comment}}<small class="ml-3 float-right">{{comment.date|date:"r"}}</small></p>
+            <hr>
+        {% endfor %}
+    </div>    
+</div>
+{% endblock %}

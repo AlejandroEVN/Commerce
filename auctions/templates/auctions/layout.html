@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="{% static 'auctions/style.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <h3>
+                        Auctionify
+                        <span class="material-icons">shopping_cart</span>
+                    </h3>
+                    
+                </a>                
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item {% if nbar == 'index' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
+                    </li>                    
+                    <li class="nav-item {% if nbar == 'categories' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'category_search' %}">Categories</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item {% if nbar == 'add_listing' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'add_listing' %}"> Add Listing </a>
+                        </li>
+                        <li class="nav-item {% if nbar == 'watchlist' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'watchlist' %}" >Watchlist</a>                            
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                        </li>
+                        <li class="nav-item {% if nbar == 'register' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <span>
+                    {% if user.is_authenticated %}
+                        <small class="text-muted font-italic">Signed in as <strong>{{ user.username }}</strong></small>
+                    {% else %}
+                        <small class="text-muted font-italic">Not signed in</small>
+                    {% endif %}
+                </span>
+            </div>
+        </nav>
+        
+        <div class="d-flex flex-column flex-lg-row flex-wrap p-4">
+            {% block body %}
+            {% endblock %}
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    </body>
+</html>

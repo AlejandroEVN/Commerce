@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+{% load auction_tags %}
+
+{% block body %}
+    <table class="table table-hover">            
+        <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Initial price</th>
+                <th scope="col">Current price</th>
+                <th scope="col">Date added</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for listing in listings %}            
+                <tr>
+                    <td>{{listing.item.name}}</td>
+                    <td>${{listing.item.initial_price}}</td>
+                    <td>${{listing.item.current_price}}<small class="green">+${{listing.item.current_price|sub:listing.item.initial_price}}</small></td>
+                    <td>{{listing.item.date_added|date:"d-m-Y"}}</td>                    
+                    <td>
+                        <a class="" href="{% url 'listing' item_id=listing.id %}">Info ...</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

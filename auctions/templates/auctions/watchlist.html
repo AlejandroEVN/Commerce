@@ -1,0 +1,13 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="row col-12 col-lg-8">
+    {% for item in watched_listings %}    
+        <div class="card p-3 m-2">
+            <h5 class="card-title">{{item.listing.item.name}}</h5>
+            <p class="card-subtitle">Added: {{item.listing.item.date_added}}</p>
+            <a class="card-link badge badge-pill badge-dark" href=" {% url 'listing' item_id=item.listing.id %}">Go to listing</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

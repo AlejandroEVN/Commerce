@@ -1,0 +1,14 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.green {
+  color: #00a53f !important;
+}
+
+.img-container {
+  width: 450px;
+  height: 450px;
+}
+/*# sourceMappingURL=style.css.map */

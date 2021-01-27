@@ -1,0 +1,21 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="row col-12 col-lg-6">
+    <div class="col">
+        {% if message %}
+            <p class="alert alert-info">{{message}}</p>
+        {% endif %}
+        <form action="{% url 'category_search' %}" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{field.label}}</label>
+                {{field}}
+            </div>
+            {% endfor %}
+            <input class="btn btn-primary" type="submit">
+        </form>
+    </div>
+</div>
+{% endblock %}

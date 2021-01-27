@@ -1,0 +1,68 @@
+{% extends "auctions/layout.html" %}
+{% load auction_tags %}
+
+{% block body %}
+    <div class="col-12 col-lg-6 border-right border-info">
+        <div class="container col col-lg-6 text-center">
+            <h4>Active Listings</h4>
+        </div>
+        <table class="table table-hover">            
+            <thead>
+                <tr>
+                    <th scope="col">Preview</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Current price</th>
+                    <th scope="col">Date added</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for listing in active_listings %}            
+                    <tr>
+                        <td class="w-25"><img class="img-fluid" src="{{listing.item.image}}"></td>
+                        <td>{{listing.item.name}}</td>
+                        <td class="w-25">{{listing.item.description}}</td>
+                        <td>${{listing.item.current_price}}<small class="green">+${{listing.item.current_price|sub:listing.item.initial_price}}</small></td>
+                        <td>{{listing.item.date_added|date:"d-m-Y"}}</td>                    
+                        <td>
+                            <a class="" href="{% url 'listing' item_id=listing.id %}">Info ...</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="col col-lg-6">
+        <div class="container col col-lg-6 text-center">
+            <h4>Closed Listings</h4>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" class="w-25">Preview</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Initial price</th>
+                    <th scope="col">Sold price</th>
+                    <th scope="col">Date added</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for listing in closed_listings %}            
+                    <tr>
+                        <td class="w-25"><img class="img-fluid" src="{{listing.item.image}}"></td>
+                        <td>{{listing.item.name}}</td>
+                        <td>${{listing.item.initial_price}}</td>
+                        <td>${{listing.item.current_price}}<small class="green">+${{listing.item.current_price|sub:listing.item.initial_price}}</small></td>
+                        <td>{{listing.item.date_added|date:"d-m-Y"}}</td>                    
+                        <td>
+                            <a class="" href="{% url 'listing' item_id=listing.id %}">Info ...</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
