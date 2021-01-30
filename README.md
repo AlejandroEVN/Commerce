@@ -10,8 +10,9 @@ The goal for this project was to practice with Django models, managing the data 
 and the interactions with HTML templates, e.g. by creating custom template tags.
 
 #### Demo
-SOON
-
+<img src="./auctions/demo/commerce-demo1.gif" width="960" height="540" />
+<img src="./auctions/demo/commerce-demo2.gif" width="960" height="540" />
+<img src="./auctions/demo/commerce-demo3.gif" width="960" height="540" />
 #### Routes
 
 `url: /`
