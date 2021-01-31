@@ -6,7 +6,8 @@ This is an commerce web application, very much like ebay. Allows users to upload
 and add comments on an item.
 
 This was the second project made with Django.
-The goal for this project was to practice with Django models, managing the data coming from the front end
+
+The main objective of this project was to practice with Django models and ORM, managing the data coming from the front end
 and the interactions with HTML templates, e.g. by creating custom template tags.
 
 #### Demo
