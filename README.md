@@ -1,5 +1,3 @@
-## AlejandroEVN
-
 ### Project Commerce 
 
 This is an commerce web application, very much like ebay. Allows users to upload the items they want to sell, place bids on other items, add them to their watchlist 
